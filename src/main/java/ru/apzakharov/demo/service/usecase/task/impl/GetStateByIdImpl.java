@@ -1,9 +1,9 @@
-package ru.apzakharov.demo.service.usecase.impl;
+package ru.apzakharov.demo.service.usecase.task.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.apzakharov.demo.port.TaskPort;
-import ru.apzakharov.demo.service.usecase.GetStateById;
+import ru.apzakharov.demo.service.usecase.task.GetStateById;
 
 @Component
 @RequiredArgsConstructor
@@ -12,7 +12,7 @@ public class GetStateByIdImpl implements GetStateById {
   private final TaskPort taskPort;
 
   @Override
-  public String getStateById(Long id) {
+  public String execute(Long id) {
     return taskPort.getStateById(id);
   }
 }

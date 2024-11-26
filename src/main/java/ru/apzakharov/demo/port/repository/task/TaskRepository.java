@@ -19,11 +19,11 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long>, TaskPor
       """,nativeQuery = true)
   String getStateById(@Param("id") Long id);
 
-  @Override
-  @Query(value = """
-      Select (select s.description from demo.state as s where s.id=t_s.state_id) from demo.task as t 
-      left join demo.task_state t_s on 
-          t.task_id = t_s.task_id          
-      """,nativeQuery = true)
-  String getByLastState(@Param("id") Long id);
+//  @Override
+//  @Query(value = """
+//      Select (select s.description from demo.state as s where s.id=t_s.state_id) from demo.task as t
+//      left join demo.task_state t_s on
+//          t.task_id = t_s.task_id
+//      """,nativeQuery = true)
+//  String getByLastState(@Param("id") Long id);
 }

@@ -1,0 +1,47 @@
+service:
+  worker:
+    count: 2
+    batch-size: 100
+spring:
+  application:
+    name: nexgin
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:database}}
+    username: ${DB_USER:admin}
+    password: ${DB_PASSWORD:password}
+    driverClassName: org.postgresql.Driver
+    auto-commit: false
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  liquibase:
+    change-log: classpath*:db/changelog/changelog.xml
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+
+  cloud:
+    stream:
+      kafka:
+        streams:
+          bindings:
+            task-in-0:
+              consumer:
+                dlqName: task-dlq
+          binder:
+            configuration:
+              commit:
+                interval:
+                  ms: 1000
+      bindings:
+        task-in-0:
+          destination: task
+      function:
+        definition: taskConsumer;
+
+

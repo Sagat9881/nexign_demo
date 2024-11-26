@@ -8,7 +8,7 @@ import ru.apzakharov.demo.adapter.controller.task.TaskController;
 import ru.apzakharov.demo.adapter.controller.task.mapper.TaskControllerMapper;
 import ru.apzakharov.demo.adapter.controller.task.model.ExceptionDto;
 import ru.apzakharov.demo.adapter.controller.task.model.TaskDto;
-import ru.apzakharov.demo.service.usecase.GetByIdUseCase;
+import ru.apzakharov.demo.service.usecase.task.GetByIdUseCase;
 
 @Service
 @RequiredArgsConstructor

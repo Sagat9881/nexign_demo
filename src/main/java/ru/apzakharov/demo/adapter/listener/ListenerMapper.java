@@ -1,9 +1,11 @@
-package ru.apzakharov.demo.adapter.controller;
+package ru.apzakharov.demo.adapter.listener;
 
 import org.mapstruct.Mapper;
 import ru.apzakharov.demo.application.model.Domain;
-public interface ControllerMapper<DTO extends ControllerDto, DOMAIN extends Domain> {
+public interface ListenerMapper <DTO extends ListenerDto, DOMAIN extends Domain> {
 
   DTO toDto(DOMAIN domain);
   DOMAIN toDomain(DTO domain);
+
+
 }

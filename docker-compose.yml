@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15.0
+    container_name: demo-db
+    environment:
+      POSTGRES_DB: "demo"
+      POSTGRES_USER: "demo"
+      POSTGRES_PASSWORD: "demo"
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    restart: on-failure
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    restart: on-failure
+
+  kafka:
+    restart: on-failure
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+    hostname: kafka
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+  app:
+    build:
+      context: src
+      dockerfile: ./Dockerfile
+    container_name: nexign-demo-app
+    environment:
+      SPRING_PROFILE: "local"
+      DB_HOST: "demo-db"
+      DB_PORT: "5432"
+      DB_NAME: "demo"
+      DB_USER: "demo"
+      DB_PASSWORD: "demo"
+      KAFKA_URL: "kafka:29092"
+
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "db"
+      - "kafka"
+
+
+
