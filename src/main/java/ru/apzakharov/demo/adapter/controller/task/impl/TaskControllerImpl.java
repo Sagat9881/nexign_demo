@@ -9,18 +9,23 @@ import ru.apzakharov.demo.adapter.controller.task.mapper.TaskControllerMapper;
 import ru.apzakharov.demo.adapter.controller.task.model.ExceptionDto;
 import ru.apzakharov.demo.adapter.controller.task.model.TaskDto;
 import ru.apzakharov.demo.service.usecase.task.GetByIdUseCase;
+import ru.apzakharov.demo.service.usecase.task.GetStateById;
+import ru.apzakharov.demo.service.usecase.task.SaveTaskUseCase;
 
 @Service
 @RequiredArgsConstructor
 public class TaskControllerImpl implements TaskController {
 
-  private final GetByIdUseCase getById;
+  private final GetByIdUseCase getByIdUseCase;
+  private final GetStateById getStateByIdUseCase;
+  private final SaveTaskUseCase saveTaskUseCase;
+
   private final TaskControllerMapper mapper;
 
   @Override
   public ResponseEntity<ControllerDto> getById(Long id) {
     try {
-      return ok(mapper.toDto(getById.getById(id)));
+      return ok(mapper.toDto(getByIdUseCase.getById(id)));
     } catch (Exception e) {
       return internal(new ExceptionDto(id, e.getMessage()));
     }
@@ -28,11 +33,19 @@ public class TaskControllerImpl implements TaskController {
 
   @Override
   public String getStateById(Long id) {
-    return null;
+    try {
+      return getStateByIdUseCase.execute(id);
+    } catch (Exception e) {
+      return e.getMessage();
+    }
   }
 
   @Override
   public ResponseEntity<ControllerDto> post(TaskDto task) {
-    return null;
+    try {
+      return ok(mapper.toDto(saveTaskUseCase.execute(mapper.toDomain(task))));
+    } catch (Exception e) {
+      return internal(new ExceptionDto(task.getId(), e.getMessage()));
+    }
   }
 }

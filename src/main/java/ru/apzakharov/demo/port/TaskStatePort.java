@@ -1,6 +1,6 @@
 package ru.apzakharov.demo.port;
 
-import ru.apzakharov.demo.port.repository.task.entity.TaskStateEntity;
+import ru.apzakharov.demo.port.repository.taskstate.entity.TaskStateEntity;
 
 public interface TaskStatePort {
 

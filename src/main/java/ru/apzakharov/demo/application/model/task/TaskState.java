@@ -1,9 +1,11 @@
 package ru.apzakharov.demo.application.model.task;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import ru.apzakharov.demo.application.model.Domain;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Getter
 public enum TaskState implements Domain {
   REGISTERED("Задача зарегистрирована","REGISTERED"),
   ON_PROGRESS("Задача выполняется","ON_PROGRESS"),

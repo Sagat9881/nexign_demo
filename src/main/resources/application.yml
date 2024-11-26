@@ -1,7 +1,7 @@
 service:
   worker:
     count: 2
-    batch-size: 100
+    batch-size: 10
 spring:
   application:
     name: nexgin
@@ -11,9 +11,11 @@ spring:
     username: ${DB_USER:admin}
     password: ${DB_PASSWORD:password}
     driverClassName: org.postgresql.Driver
-    auto-commit: false
+
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    properties:
+      hibernate:
+        default_schema: demo
     show-sql: true
     generate-ddl: false
     hibernate:
@@ -23,7 +25,7 @@ spring:
   liquibase:
     change-log: classpath*:db/changelog/changelog.xml
   kafka:
-    bootstrap-servers: ${KAFKA_URL}
+    bootstrap-servers: ${KAFKA_URL:}
 
   cloud:
     stream:

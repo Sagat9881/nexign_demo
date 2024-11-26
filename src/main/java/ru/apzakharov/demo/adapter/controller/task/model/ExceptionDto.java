@@ -11,7 +11,7 @@ public class ExceptionDto extends TaskDto {
   private final String message;
 
   public ExceptionDto(long id, String message) {
-    super(id, -1L);
+    super(id, -1L,new TaskStateDto());
     this.message = message;
   }
 }

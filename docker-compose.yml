@@ -4,6 +4,7 @@ services:
   db:
     image: postgres:15.0
     container_name: demo-db
+    hostname:  demo-db
     environment:
       POSTGRES_DB: "demo"
       POSTGRES_USER: "demo"
@@ -20,7 +21,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - 22181:2181
+      - "22181:2181"
     restart: on-failure
 
   kafka:
@@ -31,6 +32,7 @@ services:
     ports:
       - "29092:29092"
     hostname: kafka
+    container_name: kafka
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -38,10 +40,10 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+
   app:
     build:
-      context: src
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     container_name: nexign-demo-app
     environment:
       SPRING_PROFILE: "local"
@@ -55,8 +57,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - "db"
-      - "kafka"
+      - db
+      - kafka
 
 
 
